@@ -41,6 +41,10 @@ New features
      Kullback-Leibler divergence and the Itakura-Saito divergence.
      By `Tom Dupre la Tour`_.
 
+   - Added the :class:`sklearn.model_selection.RepeatedKFold` and
+     :class:`sklearn.model_selection.RepeatedStratifiedKFold`.
+     :issue:`8120` by `Neeraj Gangwar`_.
+
    - Added :func:`metrics.mean_squared_log_error`, which computes
      the mean square error of the logarithmic transformation of targets,
      particularly useful for targets with an exponential trend.
@@ -152,6 +156,10 @@ Enhancements
 
 Bug fixes
 .........
+   - Fixed a bug where :class:`sklearn.cluster.DBSCAN` gives incorrect 
+     result when input is a precomputed sparse matrix with initial
+     rows all zero.
+     :issue:`8306` by :user:`Akshay Gupta <Akshay0724>`
 
    - Fixed a bug where :class:`sklearn.ensemble.AdaBoostClassifier` throws
      ``ZeroDivisionError`` while fitting data with single class labels.
@@ -177,6 +185,10 @@ Bug fixes
      ``download_if_missing`` keyword.  This was fixed in :issue:`7944` by
      :user:`Ralf Gommers <rgommers>`.
 
+   - Fixed a bug in :class:`sklearn.ensemble.GradientBoostingClassifier`
+     and :class:`sklearn.ensemble.GradientBoostingRegressor`
+     where a float being compared to ``0.0`` using ``==`` caused a divide by zero
+     error. This was fixed in :issue:`7970` by :user:`He Chen <chenhe95>`.
 
    - Fix a bug regarding fitting :class:`sklearn.cluster.KMeans` with a
      sparse array X and initial centroids, where X's means were unnecessarily
@@ -262,6 +274,13 @@ API changes summary
       selection classes to be used with tools such as
       :func:`sklearn.model_selection.cross_val_predict`.
       :issue:`2879` by :user:`Stephen Hoover <stephen-hoover>`.
+      
+   - Estimators with both methods ``decision_function`` and ``predict_proba`` 
+     are now required to have a monotonic relation between them. The 
+     method ``check_decision_proba_consistency`` has been added in 
+     **sklearn.utils.estimator_checks** to check their consistency. 
+     :issue:`7578` by :user:`Shubham Bhardwaj <shubham0704>`
+      
 
 .. _changes_0_18_1:
 
@@ -5000,3 +5019,5 @@ David Huard, Dave Morrill, Ed Schofield, Travis Oliphant, Pearu Peterson.
 .. _Vincent Pham: https://github.com/vincentpham1991
 
 .. _Denis Engemann: http://denis-engemann.de
+
+.. _Neeraj Gangwar: http://neerajgangwar.in
